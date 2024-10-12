@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es6", // ou a versão que você preferir
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
+    // outras opções...
+  },
+  "include": [
+    "src/**/*.ts" // ajuste para incluir seus arquivos .ts
+  ],
+  "exclude": ["node_modules"]
+}
