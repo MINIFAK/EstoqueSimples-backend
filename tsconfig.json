@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es6", // ou a versão que você preferir
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext"
-    // outras opções...
+    "target": "ES6", // ou a versão que preferir
+    "module": "CommonJS",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist"
   },
-  "include": [
-    "src/**/*.ts" // ajuste para incluir seus arquivos .ts
-  ],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }
