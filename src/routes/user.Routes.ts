@@ -6,6 +6,7 @@ import { DetailUserController } from "../controller/user/DetailUserController";
 import { setUserRoleController } from "../controller/user/setUserRoleController";
 import { isAdmin } from "../middlewares/isAdmin";
 import { getRolesController } from "../controller/user/getRolesController";
+import { DeleteUserController } from "../controller/user/DeleteUserController";
 
 const userRoutes = Router();
 
@@ -26,6 +27,13 @@ userRoutes.get(
   isAuthenticated,
   isAdmin,
   new getRolesController().handle
+);
+
+userRoutes.delete(
+  "/users",
+  isAuthenticated,
+  isAdmin,
+  new DeleteUserController().handle
 );
 
 export default userRoutes;
