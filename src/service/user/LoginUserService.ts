@@ -30,7 +30,8 @@ export class LoginUserService {
     if (!passwordHash)
       throw new AppError("O e-mail ou a senha fornecidos são inválidos", 400);
 
-    const token = jwt.sign({ id, role }, `${process.env.JWT_SECRET}`, {
+    const token = jwt.sign({ role, name, email }, `${process.env.JWT_SECRET}`, {
+      subject: id,
       expiresIn: "5d",
     });
 
