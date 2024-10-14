@@ -1,6 +1,7 @@
 import prismaClient from "../../Prisma/prismaClient";
+import { AppError } from "../../utils/error/RouterError";
 
-enum Stock {
+export enum Stock {
   asc = "asc",
   desc = "desc",
 }
@@ -13,6 +14,13 @@ interface ListProductsProps {
 
 export class ListProductsService {
   async execute({ stock, categoryId, minStock, maxStock }: ListProductsProps) {
+    if (stock && stock !== "asc" && stock !== "desc") {
+      throw new AppError(
+        "Apenas o tipo 'asc' e 'desc' podem ser passados para o stock",
+        400
+      );
+    }
+
     if (stock && categoryId) {
       if (minStock && maxStock) {
         return await prismaClient.product.findMany({
@@ -65,6 +73,7 @@ export class ListProductsService {
         });
       }
     }
+
     if (stock && !categoryId) {
       if (minStock && maxStock) {
         return await prismaClient.product.findMany({
@@ -107,11 +116,11 @@ export class ListProductsService {
         return await prismaClient.product.findMany({
           orderBy: {
             stock,
-            categoryId: "asc",
           },
         });
       }
     }
+
     if (!stock && categoryId) {
       return await prismaClient.product.findMany({
         where: {
@@ -119,6 +128,7 @@ export class ListProductsService {
         },
       });
     }
+
     return await prismaClient.product.findMany({
       orderBy: {
         categoryId: "asc",
