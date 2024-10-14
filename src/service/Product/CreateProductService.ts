@@ -1,16 +1,8 @@
 import { MeasurementUnit } from "@prisma/client";
 import prismaClient from "../../Prisma/prismaClient";
 import { AppError } from "../../utils/error/RouterError";
+import { ProductProps } from "../../utils/types/Product";
 
-interface ProductProps {
-  name: string;
-  price: number;
-  stock: number;
-  minimumStock: number;
-  measurementUnit: MeasurementUnit;
-
-  categoryId: string;
-}
 export class CreateProductService {
   async execute({
     name,
