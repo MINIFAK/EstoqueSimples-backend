@@ -1,7 +1,10 @@
 import { NextFunction, Request, Response } from "express";
+
 import "express-async-errors";
-import userRoutes from "./routes/user.Routes";
 import { AppError } from "./utils/error/RouterError";
+
+import userRoutes from "./routes/user.Routes";
+import productRoutes from "./routes/product.Routes";
 
 const express = require("express");
 const app = express();
@@ -10,6 +13,7 @@ const PORT = 3333;
 app.use(express.json());
 
 app.use(userRoutes);
+app.use(productRoutes);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof AppError) {
