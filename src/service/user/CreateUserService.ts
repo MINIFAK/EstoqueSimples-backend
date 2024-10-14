@@ -4,7 +4,7 @@ import { AppError } from "../../utils/error/RouterError";
 import { User } from "../../utils/types/User";
 
 export class CreateUserService {
-  async execute({ email, password, name, role = "USER" }: User) {
+  async execute({ email, password, name, role = "USUARIO" }: User) {
     if (!email || !password || !name)
       throw new AppError("Por favor, forneça seu e-mail, senha e nome", 404);
 

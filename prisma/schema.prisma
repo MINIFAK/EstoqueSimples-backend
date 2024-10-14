@@ -13,6 +13,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  USUARIO
+  ESTOQUE
+  FRENTE_CAIXA
+  MODERADOR
+  ADMIN
+}
 model User {
   id          String   @id @default(uuid())
   name        String
@@ -22,11 +29,113 @@ model User {
   role        UserRole 
 
   @@map("users")
+
+  sales     Sale[] 
+  productMovements   ProductMovement[] 
 }
 
-enum UserRole {
-  USER
-  ESTOQUE 
-  FRENTE_CAIXA 
-  ADMIN
+enum PaymentMethod {
+  DINHEIRO
+  DEBITO
+  CREDITO
+  PIX
 }
+enum Status {
+  CANCELADO
+  PENDENTE 
+  COMPLETADO 
+  REEMBOLSADO
+}
+model Sale {
+  id            String          @id @default(uuid())
+  paymentMethod PaymentMethod    
+  status        Status          
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  userId        String          
+  saleItems     SaleItem[]
+
+  user          User            @relation(fields: [userId], references: [id])
+
+  @@map("sales")
+}
+model SaleItem {
+  id        String             @id @default(uuid())
+  quantity  Int      
+  price     Float   
+
+  saleId    String     
+  productId String     
+
+  sale      Sale     @relation(fields: [saleId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+
+  @@map("sale_items")
+}
+
+enum MeasurementUnit {
+  UNIDADE         
+  KILOGRAMA      
+  LITRO          
+  METRO         
+  GRAMA          
+  CENTIMETRO     
+  MILILITRO      
+  PECA          
+}
+model Product {
+  id                String             @id @default(uuid())
+  name              String
+  price             Float
+  stock             Int
+  minimumStock      Int               
+  measurementUnit   MeasurementUnit    
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  categoryId        String
+
+  saleItems         SaleItem[]
+  productMovements  ProductMovement[]
+
+  category          Category           @relation(fields: [categoryId], references: [id])
+
+  @@map("products")
+}
+
+model Category {
+  id          String             @id @default(uuid())
+  name        String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+    
+  products     Product[]
+
+  @@map("categories")
+}
+
+enum MovementType {
+  ENTRADA  
+  SAIDA    
+}
+model ProductMovement {
+  id          String             @id @default(uuid())
+  productId     String                                       
+
+  movementType  MovementType                             
+  quantity      Int                                       
+  responsible   String                                   
+  createdAt     DateTime  @default(now())              
+
+  userId        String   
+                                      
+  product       Product   @relation(fields: [productId], references: [id])  
+  user          User      @relation(fields: [userId], references: [id])  
+
+  changeDetails String      
+
+  @@map("product_movements")
+}
+
+
