@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UpdateProductService } from "../../service/Product/UpdateProductService";
+import { UpdateProductService } from "../../service/product/UpdateProductService";
 import { ProductProps } from "../../utils/types/Product";
 
 // TODO Ver melhor sobre como sera feito a atualização do produto e sobre as logs de movimentações
