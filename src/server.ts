@@ -5,6 +5,7 @@ import { AppError } from "./utils/error/RouterError";
 
 import userRoutes from "./routes/user.Routes";
 import productRoutes from "./routes/product.Routes";
+import categoryRoutes from "./routes/category.Routes";
 
 const express = require("express");
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.json());
 
 app.use(userRoutes);
 app.use(productRoutes);
+app.use(categoryRoutes);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof AppError) {
